@@ -1,7 +1,6 @@
 {
   "time": "Lauchduft",
   "led_color": "Rot",
-  "battery_voltage": 1.2,
-  "last_nfc_uid": 1234567
+  "battery_voltage": 1.2
   
 }

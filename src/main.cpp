@@ -45,20 +45,34 @@ void someFunction() {
 
 void setup() {
   Serial.begin(115200);
+  delay(2000); // Zeit für Serial Monitor
+  Serial.println("=== ESP32 Hotspot NFC Projekt ===");
+  Serial.println("Setup startet...");
+  
+  Serial.println("Initialisiere SPIFFS...");
   if (!SPIFFS.begin(true)) {
     Serial.println("SPIFFS-Fehler");
     return;
   }
+  Serial.println("SPIFFS erfolgreich initialisiert");
 
+  Serial.println("Initialisiere IO...");
   setupIO();
+  Serial.println("IO initialisiert");
+  
+  Serial.println("Initialisiere NFC...");
   setupNFC(); // NFC-Setup hinzufügen
+  Serial.println("NFC-Setup abgeschlossen");
 
+  Serial.println("Starte WiFi Access Point...");
   WiFi.softAP(ssid, password);
   WiFi.softAPConfig(local_ip, gateway, subnet);
   delay(1000);
   Serial.println("AP IP: " + WiFi.softAPIP().toString());
 
+  Serial.println("Initialisiere Webserver...");
   initWebServer();
+  Serial.println("=== Setup abgeschlossen ===");
 }
 
 void loop() {

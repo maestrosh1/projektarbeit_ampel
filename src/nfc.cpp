@@ -20,9 +20,19 @@ void IRAM_ATTR irqHandler() { interrupt = true; }
 
 void setupNFC()
 {
+  Serial.println("  - Starte I2C-Verbindung...");
   Wire.begin(I2C_SDA, I2C_SCL, 400000); // I2C @ 400kHz
+  Serial.println("  - I2C gestartet");
+  
+  Serial.println("  - Initialisiere NFC-Reader...");
   nfc.begin();
+  Serial.println("  - NFC begin() abgeschlossen");
+  
+  Serial.println("  - Konfiguriere SAM...");
   nfc.SAMConfig();
+  Serial.println("  - SAM konfiguriert");
+  
+  Serial.println("  - Prüfe Firmware-Version...");
   if(!nfc.getFirmwareVersion()){
     Serial.println("NFC-Reader nicht gefunden! Hotspot läuft ohne NFC.");
     nfcAvailable = false; // NFC nicht verfügbar
@@ -46,9 +56,7 @@ void loopNFC()
     return;
   }
   
-  if (interrupt)
-  {
-    interrupt = false;
+  if (nfc.inListPassiveTarget()) {
     dumpTag();
   }
 }
